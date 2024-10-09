@@ -7,6 +7,8 @@ name: DartMq
 
 on:
   pull_request:
+    branches: [ "main" ]
+    types: [checks_requested]
   merge_group:
     branches: [ "main" ]
 
