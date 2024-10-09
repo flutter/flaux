@@ -1,3 +1,5 @@
+@Timeout(Duration(seconds: 300))
+
 import 'dart:io';
 
 import 'package:test/expect.dart';
