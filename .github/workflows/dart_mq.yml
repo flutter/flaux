@@ -6,9 +6,7 @@
 name: Dart
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
+  merge_group:
     branches: [ "main" ]
 
 jobs:
@@ -39,4 +37,4 @@ jobs:
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
       - name: Run tests
-        run: dart test
+        run: dart --define=test_delay=120.0 test
