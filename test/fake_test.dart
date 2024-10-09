@@ -5,10 +5,12 @@ import 'package:test/scaffolding.dart';
 import 'package:path/path.dart' as path;
 
 main() {
-  
-  String delayInSeconds = String.fromEnvironment('test_delay', defaultValue: "0.0");
+  String delayInSeconds =
+      String.fromEnvironment('test_delay', defaultValue: "0.0");
   final seconds = double.parse(delayInSeconds);
-  final testDelay = Duration(seconds: seconds.toInt(), milliseconds: (seconds.remainder(1) * 1000).toInt());
+  final testDelay = Duration(
+      seconds: seconds.toInt(),
+      milliseconds: (seconds.remainder(1) * 1000).toInt());
 
   tearDown(() async {
     print('waiting $testDelay');
@@ -21,6 +23,11 @@ main() {
   });
 
   test('fails if "fail.dart" present', () async {
+    if (testDelay.inMilliseconds == 0) {
+      print(
+          'delay is zero; assuming this is a presubmit and not simulating failure');
+      return;
+    }
     final dir = Directory('lib');
     if (!await dir.exists()) {
       return;
