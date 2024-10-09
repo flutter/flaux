@@ -3,9 +3,10 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Dart
+name: DartMq
 
 on:
+  pull_request:
   merge_group:
     branches: [ "main" ]
 
