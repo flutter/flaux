@@ -1,3 +1,3 @@
 main() {
-  print("pass - now after flutter-dashboard setup");
+  print("pass - now after cocoon");
 }
