@@ -9,6 +9,7 @@ solutions = [
     "managed": False,
     "name": ".",
     "safesync_url": "",
-    "url": "https://github.com/flutter/flutter.git",
+    # CODEFU - Changed for flaux
+    "url": "https://github.com/flutter/flaux.git",
   },
 ]
