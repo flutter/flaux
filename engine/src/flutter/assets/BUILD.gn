@@ -1,0 +1,20 @@
+# Copyright 2013 The Flutter Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+source_set("assets") {
+  sources = [
+    "asset_manager.cc",
+    "asset_manager.h",
+    "asset_resolver.h",
+    "directory_asset_bundle.cc",
+    "directory_asset_bundle.h",
+  ]
+
+  deps = [
+    "//flutter/common",
+    "//flutter/fml",
+  ]
+
+  public_configs = [ "//flutter:config" ]
+}
