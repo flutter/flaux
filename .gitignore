@@ -138,3 +138,12 @@ app.*.symbols
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
 !.vscode/settings.json
+
+
+# Monorepo
+.cipd
+.gclient
+.gclient_entries
+.python-version
+.gclient_previous_custom_vars
+.gclient_previous_sync_commits
