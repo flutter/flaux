@@ -145,3 +145,6 @@ app.*.symbols
 
 # The gn-sdk from Chromium and managed by DEPS and gclient.
 /tools/fuchsia/gn-sdk
+
+# Override to let in the root build folder
+!/build/
