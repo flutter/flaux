@@ -111,8 +111,9 @@ final class HeaderGuardCheck {
   }
 
   bool _isExcluded(String path) {
+    final rootPath = source.flutterDir.parent.parent.parent.path;
     for (final String excludePath in exclude) {
-      final String relativePath = p.relative(excludePath, from: source.flutterDir.path);
+      final String relativePath = p.relative(excludePath, from: rootPath);
       if (p.isWithin(relativePath, path) || p.equals(relativePath, path)) {
         return true;
       }
@@ -182,10 +183,11 @@ final ArgParser _parser = ArgParser()
     help: 'Paths to exclude from the check.',
     valueHelp: 'path/to/dir/or/file (relative to the engine root)',
     defaultsTo: _engine != null ? <String>[
-      'build',
-      'buildtools',
-      'impeller/compiler/code_gen_template.h',
-      'prebuilts',
-      'third_party',
+      'engine/src/build',
+      'engine/src/flutter/build',
+      'engine/src/flutter/buildtools',
+      'engine/src/flutter/impeller/compiler/code_gen_template.h',
+      'engine/src/flutter/prebuilts',
+      'engine/src/flutter/third_party',
     ] : null,
   );

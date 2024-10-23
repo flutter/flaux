@@ -269,9 +269,11 @@ abstract class FormatChecker {
         ...types,
       ]);
     }
-    return output.split('\n').where(
-      (String line) => line.isNotEmpty && !line.contains('third_party')
-    ).toList();
+    return output
+        .split('\n')
+        .where(
+            (String line) => line.isNotEmpty && !line.contains('third_party') && line.contains(engineSubPath))
+        .toList();
   }
 
   /// Generates a reporting function to supply to ProcessRunner to use instead
@@ -670,7 +672,7 @@ class GnFormatChecker extends FormatChecker {
         ) {
     gnBinary = File(
       path.join(
-        repoDir.absolute.path,
+        engineDir(repoDir).path,
         'third_party',
         'gn',
         Platform.isWindows ? 'gn.exe' : 'gn',
@@ -799,12 +801,12 @@ class PythonFormatChecker extends FormatChecker {
           repoDir: repoDir,
         ) {
     yapfBin = File(path.join(
-      repoDir.absolute.path,
+      engineDir(repoDir).path,
       'tools',
       Platform.isWindows ? 'yapf.bat' : 'yapf.sh',
     ));
     _yapfStyle = File(path.join(
-      repoDir.absolute.path,
+      engineDir(repoDir).path,
       '.style.yapf',
     ));
   }
@@ -830,7 +832,7 @@ class PythonFormatChecker extends FormatChecker {
     final List<String> filesToCheck = <String>[
       ...await getFileList(<String>['*.py']),
       // Always include flutter/tools/gn.
-      '${repoDir.path}/tools/gn',
+      '${engineDir(repoDir).path}/tools/gn',
     ];
 
     final List<String> cmd = <String>[
@@ -1015,8 +1017,7 @@ final class HeaderFormatChecker extends FormatChecker {
 
   // $ENGINE/flutter/third_party/dart/tools/sdks/dart-sdk/bin/dart
   late final String _dartBin = path.join(
-    repoDir.absolute.parent.path,
-    'flutter',
+    engineDir(repoDir).path,
     'third_party',
     'dart',
     'tools',
@@ -1028,7 +1029,7 @@ final class HeaderFormatChecker extends FormatChecker {
 
   // $ENGINE/src/flutter/tools/bin/main.dart
   late final String _headerGuardCheckBin = path.join(
-    repoDir.absolute.path,
+    engineDir(repoDir).path,
     'tools',
     'header_guard_check',
     'bin',
@@ -1132,6 +1133,32 @@ void _usage(ArgParser parser, {int exitCode = 1}) {
 
 bool verbose = false;
 
+const engineSubPath = 'engine/src/flutter';
+
+/// Retrieve the root of the repository, i.e. the directory containing engine/src/flutter.
+Directory repositoryRoot() {
+  final enginePath = path.split(engineSubPath);
+  final File script = File.fromUri(Platform.script).absolute;
+  final searchPath = path.split(script.parent.path);
+
+  while (searchPath.isNotEmpty) {
+    final search = path.joinAll([...searchPath, ...enginePath]);
+    if (path.isWithin(search, script.path)) {
+      break;
+    }
+    searchPath.length--;
+  }
+  if (searchPath.isEmpty) {
+    stderr.writeln('Unable to find root form ${script.path}');
+    exit(-1);
+  }
+  return Directory(path.joinAll(searchPath));
+}
+
+Directory engineDir(Directory repository) {
+  return Directory(path.join(repository.path, engineSubPath));
+}
+
 Future<int> main(List<String> arguments) async {
   final ArgParser parser = ArgParser();
   parser.addFlag('help', help: 'Print help.', abbr: 'h');
@@ -1164,9 +1191,8 @@ Future<int> main(List<String> arguments) async {
     _usage(parser, exitCode: 0);
   }
 
-  final File script = File.fromUri(Platform.script).absolute;
-  final Directory repoDir = script.parent.parent.parent;
-  final Directory srcDir = repoDir.parent;
+  final Directory repoDir = repositoryRoot();
+  final Directory srcDir = Directory(path.join(repoDir.path, 'engine/src'));
   if (verbose) {
     stderr.writeln('Repo: $repoDir');
     stderr.writeln('Src: $srcDir');
