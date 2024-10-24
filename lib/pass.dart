@@ -1,3 +1,3 @@
 main() {
-  print("pass - pass");
+  print("pass");
 }
