@@ -41,3 +41,13 @@ jobs:
       # want to change this to 'flutter test'.
       - name: Run tests
         run: dart --define=test_delay=30.0 test
+
+      - name: Test title for fail
+        env:
+          MESSAGE: ${{ github.event.merge_group.head_commit.message }}
+        run: |
+          if [[ "$MESSAGE" == *"FAIL_MQ"* ]]; then
+            echo "Found FAIL_MQ in MESSAGE. Failing the action."
+            exit 1
+          fi
+          echo "MESSAGE does not contain FAIL_MQ. Proceeding..."
