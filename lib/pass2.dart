@@ -1,3 +1,3 @@
 main() {
-  print('pass2 = pass');
+  print('pass2 this too shall pass');
 }
