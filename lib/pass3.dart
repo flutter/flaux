@@ -1,3 +1,3 @@
 main() {
-  // This should fail in MQ
+  // Try to fail MQ again!
 }
