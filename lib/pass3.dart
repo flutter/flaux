@@ -1,3 +1,3 @@
 main() {
-  // passes, definitely passes. Yes, definitely!
+  // This should fail in MQ
 }
