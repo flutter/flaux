@@ -1,3 +1,3 @@
 main() {
-  print("pass - becausae I love yegor and want him to be happy");
+  print("pass - becausae I love codefu and want him to be happy");
 }
