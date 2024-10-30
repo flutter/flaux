@@ -553,20 +553,6 @@ targets:
     runIf:
       - .ci.yaml
 
-  - name: Linux customer_testing
-    # This really just runs dev/bots/customer_testing/ci.sh,
-    # but it does so indirectly via the flutter_drone recipe
-    # calling the dev/bots/test.dart script.
-    enabled_branches:
-      - master
-    recipe: flutter/flutter_drone
-    # Timeout in minutes for the whole task.
-    timeout: 60
-    properties:
-      shard: customer_testing
-      tags: >
-        ["framework", "hostonly", "shard", "linux"]
-
   - name: Linux docs_publish
     recipe: flutter/docs
     presubmit: false
@@ -1406,26 +1392,6 @@ targets:
       test_timeout_secs: "2700"
     runIf:
       - packages/flutter_tools/templates/**
-      - .ci.yaml
-
-  - name: Linux tool_tests_commands
-    recipe: flutter/flutter_drone
-    timeout: 60
-    properties:
-      add_recipes_cq: "true"
-      dependencies: >-
-        [
-          {"dependency": "android_sdk", "version": "version:34v3"},
-          {"dependency": "open_jdk", "version": "version:17"}
-        ]
-      shard: tool_tests
-      subshard: commands
-      tags: >
-        ["framework", "hostonly", "shard", "linux"]
-    runIf:
-      - dev/**
-      - packages/flutter_tools/**
-      - bin/**
       - .ci.yaml
 
   - name: Linux tool_tests_general
@@ -3799,17 +3765,6 @@ targets:
         ]
       task_name: complex_layout_scroll_perf_macos__timeline_summary
 
-  - name: Mac customer_testing
-    enabled_branches:
-      - master
-    recipe: flutter/flutter_drone
-    # Timeout in minutes for the whole task.
-    timeout: 60
-    properties:
-      shard: customer_testing
-      tags: >
-        ["framework", "hostonly", "shard", "mac"]
-
   - name: Mac dart_plugin_registry_test
     recipe: devicelab/devicelab_drone
     timeout: 60
@@ -4438,36 +4393,6 @@ targets:
       - packages/flutter_tools/**
       - bin/**
       - .ci.yaml
-
-  - name: Mac_x64 tool_tests_commands
-    recipe: flutter/flutter_drone
-    timeout: 60
-    properties:
-      add_recipes_cq: "true"
-      dependencies: >-
-        [
-          {"dependency": "android_sdk", "version": "version:34v3"},
-          {"dependency": "open_jdk", "version": "version:17"}
-        ]
-      shard: tool_tests
-      subshard: commands
-      tags: >
-        ["framework", "hostonly", "shard", "mac"]
-
-  - name: Mac_arm64 tool_tests_commands
-    recipe: flutter/flutter_drone
-    timeout: 60
-    properties:
-      add_recipes_cq: "true"
-      dependencies: >-
-        [
-          {"dependency": "android_sdk", "version": "version:34v3"},
-          {"dependency": "open_jdk", "version": "version:17"}
-        ]
-      shard: tool_tests
-      subshard: commands
-      tags: >
-        ["framework", "hostonly", "shard", "mac"]
 
   - name: Mac tool_tests_general
     recipe: flutter/flutter_drone
@@ -5514,17 +5439,6 @@ targets:
       tags: >
         ["framework", "hostonly", "shard", "windows"]
 
-  - name: Windows customer_testing
-    enabled_branches:
-      - master
-    recipe: flutter/flutter_drone
-    # Timeout in minutes for the whole task.
-    timeout: 60
-    properties:
-      shard: customer_testing
-      tags: >
-        ["framework", "hostonly", "shard", "windows"]
-
   - name: Windows framework_tests_libraries
     recipe: flutter/flutter_drone
     timeout: 60
@@ -6175,26 +6089,6 @@ targets:
       tags: >
         ["framework", "hostonly", "shard", "windows"]
       test_timeout_secs: "2700"
-    runIf:
-      - dev/**
-      - packages/flutter_tools/**
-      - bin/**
-      - .ci.yaml
-
-  - name: Windows tool_tests_commands
-    recipe: flutter/flutter_drone
-    timeout: 60
-    properties:
-      add_recipes_cq: "true"
-      dependencies: >-
-        [
-          {"dependency": "android_sdk", "version": "version:34v3"},
-          {"dependency": "open_jdk", "version": "version:17"}
-        ]
-      shard: tool_tests
-      subshard: commands
-      tags: >
-        ["framework", "hostonly", "shard", "windows"]
     runIf:
       - dev/**
       - packages/flutter_tools/**
