@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 
-/// An example of [AnimationController] and [SlideTransition]!
+/// An example of [AnimationController] and [SlideTransition]!!
 
 // Occupies the same width as the widest single digit used by AnimatedDigit.
 //
