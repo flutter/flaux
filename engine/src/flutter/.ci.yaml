@@ -66,7 +66,7 @@ targets:
         ]
     timeout: 90
     runIf:
-      - .ci.yaml
+      - engine/src/flutter/.ci.yaml
       - ci/builders/linux_android_emulator.json
       - DEPS
       - lib/ui/**
@@ -86,7 +86,7 @@ targets:
         ]
     timeout: 90
     runIf:
-      - .ci.yaml
+      - engine/src/flutter/.ci.yaml
       - ci/builders/linux_android_emulator.json
       - DEPS
       - lib/ui/**
@@ -106,7 +106,7 @@ targets:
         ]
     timeout: 90
     runIf:
-      - .ci.yaml
+      - engine/src/flutter/.ci.yaml
       - ci/builders/linux_android_emulator_opengles_34.json
       - DEPS
       - lib/ui/**
@@ -128,7 +128,7 @@ targets:
         ]
     timeout: 90
     runIf:
-      - .ci.yaml
+      - engine/src/flutter/.ci.yaml
       - ci/builders/linux_android_emulator.json
       - DEPS
       - lib/ui/**
@@ -149,7 +149,7 @@ targets:
         ]
     timeout: 90
     runIf:
-      - .ci.yaml
+      - engine/src/flutter/.ci.yaml
       - ci/builders/linux_android_emulator.json
       - DEPS
       - lib/ui/**
@@ -265,7 +265,7 @@ targets:
       config_name: linux_clang_tidy
     runIf:
       - DEPS
-      - .ci.yaml
+      - engine/src/flutter/.ci.yaml
       - tools/clang_tidy/**
       - ci/builders/**
       - ci/clang_tidy.sh
@@ -396,7 +396,7 @@ targets:
       cores: "8"
     runIf:
       - DEPS
-      - .ci.yaml
+      - engine/src/flutter/.ci.yaml
       - lib/web_ui/**
       - web_sdk/**
       - tools/**
@@ -437,7 +437,7 @@ targets:
     timeout: 60
     runIf:
       - DEPS
-      - .ci.yaml
+      - engine/src/flutter/.ci.yaml
       - lib/web_ui/**
       - web_sdk/**
       - tools/**
@@ -469,7 +469,7 @@ targets:
       config_name: mac_clang_tidy
     runIf:
       - DEPS
-      - .ci.yaml
+      - engine/src/flutter/.ci.yaml
       - tools/clang_tidy/**
       - ci/builders/**
       - ci/clang_tidy.sh
