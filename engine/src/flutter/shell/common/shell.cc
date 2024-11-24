@@ -108,6 +108,7 @@ void PerformInitializationTasks(Settings& settings) {
         settings.verbose_logging ? fml::kLogInfo : fml::kLogError;
     fml::SetLogSettings(log_settings);
   }
+  FML_DLOG(INFO) << "Just a test - do not submit";
 
   static std::once_flag gShellSettingsInitialization = {};
   std::call_once(gShellSettingsInitialization, [&settings] {
