@@ -47,3 +47,7 @@ part 'semantics.dart';
 part 'setup_hooks.dart';
 part 'text.dart';
 part 'window.dart';
+
+void test() {
+  print('DO NOT SUBMIT');
+}
