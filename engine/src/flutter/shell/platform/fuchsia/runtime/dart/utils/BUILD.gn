@@ -5,6 +5,7 @@
 assert(is_fuchsia)
 
 import("//flutter/common/config.gni")
+import("//flutter/shell/version/version.gni")
 import("//flutter/testing/testing.gni")
 import("//flutter/tools/fuchsia/gn-sdk/src/gn_configs.gni")
 
@@ -59,7 +60,6 @@ template("make_utils") {
 action("generate_build_info_cc_file") {
   inputs = [
     "build_info_in.cc",
-    "//flutter/.git/logs/HEAD",
     "//fuchsia/sdk/$host_os/meta/manifest.json",
     "$dart_src/.git/logs/HEAD",
   ]
@@ -73,6 +73,8 @@ action("generate_build_info_cc_file") {
     rebase_path(outputs[0], root_build_dir),
     "--buildroot",
     rebase_path("//", root_build_dir),
+    "--engine-version",
+    engine_version,
   ]
 }
 

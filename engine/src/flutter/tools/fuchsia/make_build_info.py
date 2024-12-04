@@ -52,6 +52,9 @@ def main():
   parser.add_argument(
       '--buildroot', action='store', help='path to the flutter engine buildroot', required=True
   )
+  parser.add_argument(
+      '--engine-version', action='store', help='Flutter engine commit hash', required=True
+  )
   args = parser.parse_args()
 
   # Read, interpolate, write.
@@ -65,7 +68,7 @@ def main():
             GetDartSdkSemanticVersion(args.buildroot).decode('utf-8')
         ).replace(
             '{{FLUTTER_ENGINE_GIT_REVISION}}',
-            GetFlutterEngineGitRevision(args.buildroot).decode('utf-8')
+            args.engine_version
         ).replace('{{FUCHSIA_SDK_VERSION}}', GetFuchsiaSdkVersion(args.buildroot))
     )
 
