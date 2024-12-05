@@ -59,6 +59,7 @@ def main():
 
   # Read, interpolate, write.
   with open(args.input, 'r') as i, open(args.output, 'w') as o:
+    # yapf: disable
     o.write(
         i.read().replace(
             '{{DART_SDK_GIT_REVISION}}',
