@@ -48,6 +48,8 @@ part 'setup_hooks.dart';
 part 'text.dart';
 part 'window.dart';
 
+/// Does absolutely nothing.
 void test() {
+  // ignore: avoid_print
   print('DO NOT SUBMIT');
 }
