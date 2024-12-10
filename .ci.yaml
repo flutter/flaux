@@ -553,19 +553,19 @@ targets:
     runIf:
       - .ci.yaml
 
-  - name: Linux customer_testing
-    # This really just runs dev/bots/customer_testing/ci.sh,
-    # but it does so indirectly via the flutter_drone recipe
-    # calling the dev/bots/test.dart script.
-    enabled_branches:
-      - master
-    recipe: flutter/flutter_drone
-    # Timeout in minutes for the whole task.
-    timeout: 60
-    properties:
-      shard: customer_testing
-      tags: >
-        ["framework", "hostonly", "shard", "linux"]
+  # - name: Linux customer_testing
+  #   # This really just runs dev/bots/customer_testing/ci.sh,
+  #   # but it does so indirectly via the flutter_drone recipe
+  #   # calling the dev/bots/test.dart script.
+  #   enabled_branches:
+  #     - master
+  #   recipe: flutter/flutter_drone
+  #   # Timeout in minutes for the whole task.
+  #   timeout: 60
+  #   properties:
+  #     shard: customer_testing
+  #     tags: >
+  #       ["framework", "hostonly", "shard", "linux"]
 
   - name: Linux docs_publish
     recipe: flutter/docs
@@ -3799,16 +3799,16 @@ targets:
         ]
       task_name: complex_layout_scroll_perf_macos__timeline_summary
 
-  - name: Mac customer_testing
-    enabled_branches:
-      - master
-    recipe: flutter/flutter_drone
-    # Timeout in minutes for the whole task.
-    timeout: 60
-    properties:
-      shard: customer_testing
-      tags: >
-        ["framework", "hostonly", "shard", "mac"]
+  # - name: Mac customer_testing
+  #   enabled_branches:
+  #     - master
+  #   recipe: flutter/flutter_drone
+  #   # Timeout in minutes for the whole task.
+  #   timeout: 60
+  #   properties:
+  #     shard: customer_testing
+  #     tags: >
+  #       ["framework", "hostonly", "shard", "mac"]
 
   - name: Mac dart_plugin_registry_test
     recipe: devicelab/devicelab_drone
@@ -5514,16 +5514,16 @@ targets:
       tags: >
         ["framework", "hostonly", "shard", "windows"]
 
-  - name: Windows customer_testing
-    enabled_branches:
-      - master
-    recipe: flutter/flutter_drone
-    # Timeout in minutes for the whole task.
-    timeout: 60
-    properties:
-      shard: customer_testing
-      tags: >
-        ["framework", "hostonly", "shard", "windows"]
+  # - name: Windows customer_testing
+  #   enabled_branches:
+  #     - master
+  #   recipe: flutter/flutter_drone
+  #   # Timeout in minutes for the whole task.
+  #   timeout: 60
+  #   properties:
+  #     shard: customer_testing
+  #     tags: >
+  #       ["framework", "hostonly", "shard", "windows"]
 
   - name: Windows framework_tests_libraries
     recipe: flutter/flutter_drone
