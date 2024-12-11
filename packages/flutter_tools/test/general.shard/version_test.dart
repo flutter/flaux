@@ -60,7 +60,7 @@ void main() {
       });
 
       testUsingContext('prints nothing when Flutter installation looks fresh', () async {
-        const String flutterUpstreamUrl = 'https://github.com/flutter/flutter.git';
+        const String flutterUpstreamUrl = 'https://github.com/flutter/flaux.git';
         processManager.addCommands(<FakeCommand>[
           const FakeCommand(
             command: <String>['git', '-c', 'log.showSignature=false', 'log', '-n', '1', '--pretty=format:%H'],
@@ -134,7 +134,7 @@ void main() {
       });
 
       testUsingContext('does not crash when git log outputs malformed output', () async {
-        const String flutterUpstreamUrl = 'https://github.com/flutter/flutter.git';
+        const String flutterUpstreamUrl = 'https://github.com/flutter/flaux.git';
 
         final String malformedGitLogOutput = '${getChannelUpToDateVersion()}[0x7FF9E2A75000] ANOMALY: meaningless REX prefix used';
         processManager.addCommands(<FakeCommand>[
@@ -366,10 +366,10 @@ void main() {
   }
 
     group('VersionUpstreamValidator', () {
-      const String flutterStandardUrlDotGit = 'https://github.com/flutter/flutter.git';
+      const String flutterStandardUrlDotGit = 'https://github.com/flutter/flaux.git';
       const String flutterNonStandardUrlDotGit = 'https://githubmirror.com/flutter/flutter.git';
-      const String flutterStandardSshUrlDotGit = 'git@github.com:flutter/flutter.git';
-      const String flutterFullSshUrlDotGit = 'ssh://git@github.com/flutter/flutter.git';
+      const String flutterStandardSshUrlDotGit = 'git@github.com:flutter/flaux.git';
+      const String flutterFullSshUrlDotGit = 'ssh://git@github.com/flutter/flaux.git';
 
       VersionCheckError? runUpstreamValidator({
         String? versionUpstreamUrl,
@@ -889,7 +889,7 @@ void main() {
         stdout: 'master',
       ),
       const FakeCommand(
-        command: <String>['git', 'fetch', 'https://github.com/flutter/flutter.git', '--tags', '-f'],
+        command: <String>['git', 'fetch', 'https://github.com/flutter/flaux.git', '--tags', '-f'],
       ),
       const FakeCommand(
         command: <String>['git', 'tag', '--points-at', 'HEAD'],

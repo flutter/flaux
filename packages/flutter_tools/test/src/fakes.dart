@@ -362,7 +362,7 @@ class FakeFlutterVersion implements FlutterVersion {
     this.devToolsVersion = '2.8.0',
     this.engineRevision = 'abcdefghijklmnopqrstuvwxyz',
     this.engineRevisionShort = 'abcde',
-    this.repositoryUrl = 'https://github.com/flutter/flutter.git',
+    this.repositoryUrl = 'https://github.com/flutter/flaux.git',
     this.frameworkVersion = '0.0.0',
     this.frameworkRevision = '11111111111111111111',
     this.frameworkRevisionShort = '11111',
