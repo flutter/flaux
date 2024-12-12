@@ -233,7 +233,7 @@ void main() {
       validationType: ValidationType.partial,
       statusInfo: 'Channel beta, 1.0.0, on Linux, locale en_US.UTF-8',
       messages: containsAll(const <ValidationMessage>[
-        ValidationMessage.hint('Upstream repository https://github.com/flutter/flutter.git is not the same as FLUTTER_GIT_URL'),
+        ValidationMessage.hint('Upstream repository https://github.com/flutter/flaux.git is not the same as FLUTTER_GIT_URL'),
         ValidationMessage('FLUTTER_GIT_URL = https://githubmirror.com/flutter.git'),
         ValidationMessage(
           'If those were intentional, you can disregard the above warnings; however it is '
@@ -329,7 +329,7 @@ void main() {
       expect(await flutterValidator.validate(), _matchDoctorValidation(
         validationType: ValidationType.success,
         statusInfo: 'Channel beta, 1.0.0, on Linux, locale en_US.UTF-8',
-        messages: contains(const ValidationMessage('Upstream repository https://github.com/flutter/flutter.git')),
+        messages: contains(const ValidationMessage('Upstream repository https://github.com/flutter/flaux.git')),
       ));
     });
 
