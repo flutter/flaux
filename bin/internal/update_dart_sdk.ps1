@@ -25,23 +25,32 @@ $engineStamp = "$cachePath\engine-dart-sdk.stamp"
 if ((Test-Path "$flutterRoot\DEPS" -PathType Leaf) -and (Test-Path "$flutterRoot\engine\src\.gn" -PathType Leaf)) {
   # Calculate the engine hash from tracked git files.
     Push-Location "$flutterRoot"
+    $branch = (git -C "$FLUTTER_ROOT" rev-parse --abbrev-ref HEAD)
     if ($null -eq $Env:LUCI_CONTEXT) {
-        $engineVersion = (git merge-base HEAD master)
+        $engineVersion = (git merge-base HEAD upstream/master)
     } else {
         $engineVersion = (git rev-parse HEAD)
     }
     Pop-Location
-    $engineVersion | Out-File -FilePath "$flutterRoot\bin\internal\engine.version"
 
-    # The realm on CI is passed in.
-    if ($Env:FLUTTER_REALM) {
-        $Env:FLUTTER_REALM | Out-File -FilePath "$flutterRoot\bin\internal\engine.realm"
-        $engineRealm = "$Env:FLUTTER_REALM"
+    if (($branch -ne "stable" -and $branch -ne "beta")) {
+        # Write the engine version out so downstream tools know what to look for.
+        $engineVersion | Out-File -FilePath "$flutterRoot\bin\internal\engine.version"
+
+        # The realm on CI is passed in.
+        if ($Env:FLUTTER_REALM) {
+            $Env:FLUTTER_REALM | Out-File -FilePath "$flutterRoot\bin\internal\engine.realm"
+            $engineRealm = "$Env:FLUTTER_REALM"
+        } else {
+            $engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
+        }
     } else {
+        # Release branch - these files will exist
+        $engineVersion = (Get-Content "$flutterRoot\bin\internal\engine.version")
         $engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
     }
 } else {
-  # Non-fusion repository
+  # Non-fusion repository - these files will exist
   $engineVersion = (Get-Content "$flutterRoot\bin\internal\engine.version")
   $engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
 }

@@ -23,22 +23,32 @@ OS="$(uname -s)"
 
 # Test for fusion repository
 if [ -f "$FLUTTER_ROOT/DEPS" ] && [ -f "$FLUTTER_ROOT/engine/src/.gn" ]; then
-  # Calculate the engine hash from tracked git files.
+  BRANCH=$(cd $FLUTTER_ROOT; git rev-parse --abbrev-ref HEAD)
+  # In a fusion repository; the engine.version comes from the git hashes.
   if [ -z "${LUCI_CONTEXT}" ]; then
-    ENGINE_VERSION=$(cd "$FLUTTER_ROOT"; git merge-base HEAD master)
+    ENGINE_VERSION=$(cd "$FLUTTER_ROOT"; git merge-base HEAD upstream/master)
   else
     ENGINE_VERSION=$(cd "$FLUTTER_ROOT"; git rev-parse HEAD)
   fi
-  echo $ENGINE_VERSION > "$FLUTTER_ROOT/bin/internal/engine.version"
 
-  if [ -n "${FLUTTER_REALM}" ]; then
-    echo $FLUTTER_REALM > "$FLUTTER_ROOT/bin/internal/engine.realm"
-    ENGINE_REALM="$FLUTTER_REALM"
+  if [[ "$BRANCH" != "stable" && "$BRANCH" != "beta" ]]; then
+    # Write the engine version out so downstream tools know what to look for.
+    echo $ENGINE_VERSION > "$FLUTTER_ROOT/bin/internal/engine.version"
+
+    # The realm on CI is passed in.
+    if [ -n "${FLUTTER_REALM}" ]; then
+      echo $FLUTTER_REALM > "$FLUTTER_ROOT/bin/internal/engine.realm"
+      ENGINE_REALM="$FLUTTER_REALM"
+    else
+      ENGINE_REALM=$(cat "$FLUTTER_ROOT/bin/internal/engine.realm" | tr -d '[:space:]')
+    fi
   else
+    # Release branch - these files will exist
+    ENGINE_VERSION=$(cat "$FLUTTER_ROOT/bin/internal/engine.version")
     ENGINE_REALM=$(cat "$FLUTTER_ROOT/bin/internal/engine.realm" | tr -d '[:space:]')
   fi
 else
-  # Non-fusion repository
+  # Non-fusion repository - these files will exist
   ENGINE_VERSION=$(cat "$FLUTTER_ROOT/bin/internal/engine.version")
   ENGINE_REALM=$(cat "$FLUTTER_ROOT/bin/internal/engine.realm" | tr -d '[:space:]')
 fi
