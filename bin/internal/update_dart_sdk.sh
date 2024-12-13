@@ -24,9 +24,9 @@ OS="$(uname -s)"
 
 # Calculate the engine hash from tracked git files.
 if [ -z "${LUCI_CONTEXT}" ]; then
-  ENGINE_VERSION=($(git merge-base HEAD master))
+  ENGINE_VERSION=$(cd "$FLUTTER_ROOT"; git merge-base HEAD master)
 else
-  ENGINE_VERSION=($(git rev-parse HEAD))
+  ENGINE_VERSION=$(cd "$FLUTTER_ROOT"; git rev-parse HEAD)
 fi
 echo $ENGINE_VERSION > "$FLUTTER_ROOT/bin/internal/engine.version"
 

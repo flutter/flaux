@@ -23,11 +23,13 @@ $engineStamp = "$cachePath\engine-dart-sdk.stamp"
 $engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
 
 # Calculate the engine hash from tracked git files.
-if ($Env:LUCI_CONTEXT -eq "") {
-  $engineVersion = (git merge-base HEAD master)
+Push-Location "$flutterRoot"
+if ($null -eq $Env:LUCI_CONTEXT) {
+    $engineVersion = (git merge-base HEAD master)
 } else {
-  $engineVersion = (git rev-parse HEAD)
+    $engineVersion = (git rev-parse HEAD)
 }
+Pop-Location
 $engineVersion | Out-File -FilePath "$flutterRoot\bin\internal\engine.version"
 
 $oldDartSdkPrefix = "dart-sdk.old"
