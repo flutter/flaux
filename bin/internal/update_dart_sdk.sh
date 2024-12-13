@@ -22,14 +22,13 @@ ENGINE_STAMP="$FLUTTER_ROOT/bin/cache/engine-dart-sdk.stamp"
 ENGINE_REALM=$(cat "$FLUTTER_ROOT/bin/internal/engine.realm" | tr -d '[:space:]')
 OS="$(uname -s)"
 
-ENGINE_VERSION=""
-if [ -f "$FLUTTER_ROOT/bin/internal/engine.version" ]; then
-  ENGINE_VERSION=$(cat "$FLUTTER_ROOT/bin/internal/engine.version")
+# Calculate the engine hash from tracked git files.
+if [ -z "${LUCI_CONTEXT}" ]; then
+  ENGINE_VERSION=($(git merge-base HEAD master))
 else
-  # Calculate the engine hash from tracked git files.
-  # The array takes the first part of the sha1sum string.
-  ENGINE_VERSION=($(git ls-tree HEAD -r engine DEPS | sha1sum))
+  ENGINE_VERSION=($(git rev-parse HEAD))
 fi
+echo $ENGINE_VERSION > "$FLUTTER_ROOT/bin/internal/engine.version"
 
 if [ ! -f "$ENGINE_STAMP" ] || [ "$ENGINE_VERSION" != `cat "$ENGINE_STAMP"` ]; then
   command -v curl > /dev/null 2>&1 || {

@@ -22,13 +22,15 @@ $dartSdkLicense = "$cachePath\LICENSE.dart_sdk_archive.md"
 $engineStamp = "$cachePath\engine-dart-sdk.stamp"
 $engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
 
-if (Test-Path "$flutterRoot\bin\internal\engine.version") {
-    $engineVersion = (Get-Content "$flutterRoot\bin\internal\engine.version")
+PowerShell
+
+# Calculate the engine hash from tracked git files.
+if ($Env:LUCI_CONTEXT -eq "") {
+  $engineVersion = (git merge-base HEAD master)
 } else {
-    # Calculate the engine hash from tracked git files.
-    $lsTree = ((git ls-tree -r HEAD engine DEPS) | Out-String).Replace("`r`n", "`n")
-    $engineVersion = (Get-FileHash -InputStream ([System.IO.MemoryStream] [System.Text.Encoding]::UTF8.GetBytes($lsTree)) -Algorithm SHA1 | ForEach-Object { $_.Hash }).ToLower()
+  $engineVersion = (git rev-parse HEAD)
 }
+$engineVersion | Out-File -FilePath "$flutterRoot\bin\internal\engine.version"
 
 $oldDartSdkPrefix = "dart-sdk.old"
 
