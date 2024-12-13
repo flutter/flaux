@@ -49,6 +49,7 @@ targets:
   - name: Linux local_engine_builds
     enabled_branches:
       - main
+      - master
     recipe: engine_v2/engine_v2
     properties:
       config_name: local_engine
@@ -57,6 +58,7 @@ targets:
     bringup: true
     enabled_branches:
       - main
+      - master
     recipe: engine_v2/engine_v2
     properties:
       config_name: linux_android_emulator
@@ -77,6 +79,7 @@ targets:
   - name: Linux linux_android_emulator_tests_34
     enabled_branches:
       - main
+      - master
     recipe: engine_v2/engine_v2
     properties:
       config_name: linux_android_emulator_34
@@ -97,6 +100,7 @@ targets:
   - name: Linux linux_android_emulator_opengles_tests_34
     enabled_branches:
       - main
+      - master
     recipe: engine_v2/engine_v2
     properties:
       config_name: linux_android_emulator_opengles_34
@@ -118,6 +122,7 @@ targets:
     bringup: true
     enabled_branches:
       - main
+      - master
     recipe: engine_v2/builder
     properties:
       config_name: linux_android_emulator_skia
@@ -139,6 +144,7 @@ targets:
   - name: Linux linux_android_emulator_skia_tests_34
     enabled_branches:
       - main
+      - master
     recipe: engine_v2/builder
     properties:
       config_name: linux_android_emulator_skia_34
@@ -160,6 +166,7 @@ targets:
   - name: Linux builder_cache
     enabled_branches:
       - main
+      - master
     recipe: engine_v2/cache
     presubmit: false
     properties:
@@ -180,6 +187,7 @@ targets:
   - name: Windows builder_cache
     enabled_branches:
       - main
+      - master
     recipe: engine_v2/cache
     presubmit: false
     properties:
@@ -199,6 +207,7 @@ targets:
   - name: Mac builder_cache
     enabled_branches:
       - main
+      - master
     recipe: engine_v2/cache
     presubmit: false
     properties:
@@ -223,6 +232,7 @@ targets:
   - name: Linux linux_benchmarks
     enabled_branches:
       - main
+      - master
     recipe: engine_v2/builder
     presubmit: false
     properties:
@@ -418,6 +428,7 @@ targets:
     recipe: engine/web_engine_framework
     enabled_branches:
       - main
+      - master
     properties:
       add_recipes_cq: "true"
       cores: "32"
@@ -503,16 +514,17 @@ targets:
     drone_dimensions:
       - os=Mac-13|Mac-14
 
-  # Avoid using a Mac orchestrator to save ~5 minutes of Mac host time.
-  - name: Linux mac_clangd
-    recipe: engine_v2/engine_v2
-    timeout: 90
-    # Do not remove(https://github.com/flutter/flutter/issues/144644)
-    # Scheduler will fail to get the platform
-    drone_dimensions:
-      - os=Linux
-    properties:
-      config_name: mac_unopt_debug_no_rbe
+# Builder doesn't exist
+  # # Avoid using a Mac orchestrator to save ~5 minutes of Mac host time.
+  # - name: Linux mac_clangd
+  #   recipe: engine_v2/engine_v2
+  #   timeout: 90
+  #   # Do not remove(https://github.com/flutter/flutter/issues/144644)
+  #   # Scheduler will fail to get the platform
+  #   drone_dimensions:
+  #     - os=Linux
+  #   properties:
+  #     config_name: mac_unopt_debug_no_rbe
 
   - name: Mac mac_unopt
     recipe: engine_v2/engine_v2
