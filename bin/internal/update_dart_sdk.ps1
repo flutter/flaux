@@ -20,17 +20,31 @@ $cachePath = "$flutterRoot\bin\cache"
 $dartSdkPath = "$cachePath\dart-sdk"
 $dartSdkLicense = "$cachePath\LICENSE.dart_sdk_archive.md"
 $engineStamp = "$cachePath\engine-dart-sdk.stamp"
-$engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
 
-# Calculate the engine hash from tracked git files.
-Push-Location "$flutterRoot"
-if ($null -eq $Env:LUCI_CONTEXT) {
-    $engineVersion = (git merge-base HEAD master)
+# Test for fusion repository
+if ((Test-Path "$flutterRoot\DEPS" -PathType Leaf) -and (Test-Path "$flutterRoot\engine\src\.gn" -PathType Leaf)) {
+  # Calculate the engine hash from tracked git files.
+    Push-Location "$flutterRoot"
+    if ($null -eq $Env:LUCI_CONTEXT) {
+        $engineVersion = (git merge-base HEAD master)
+    } else {
+        $engineVersion = (git rev-parse HEAD)
+    }
+    Pop-Location
+    $engineVersion | Out-File -FilePath "$flutterRoot\bin\internal\engine.version"
+
+    # The realm on CI is passed in.
+    if ($Env:FLUTTER_REALM) {
+        $Env:FLUTTER_REALM | Out-File -FilePath "$flutterRoot\bin\internal\engine.realm"
+        $engineRealm = "$Env:FLUTTER_REALM"
+    } else {
+        $engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
+    }
 } else {
-    $engineVersion = (git rev-parse HEAD)
+  # Non-fusion repository
+  $engineVersion = (Get-Content "$flutterRoot\bin\internal\engine.version")
+  $engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
 }
-Pop-Location
-$engineVersion | Out-File -FilePath "$flutterRoot\bin\internal\engine.version"
 
 $oldDartSdkPrefix = "dart-sdk.old"
 
