@@ -23,12 +23,12 @@ OS="$(uname -s)"
 
 # Test for fusion repository
 if [ -f "$FLUTTER_ROOT/DEPS" ] && [ -f "$FLUTTER_ROOT/engine/src/.gn" ]; then
-  BRANCH=$(cd $FLUTTER_ROOT; git rev-parse --abbrev-ref HEAD)
+  BRANCH=$(git -C "$FLUTTER_ROOT" rev-parse --abbrev-ref HEAD)
   # In a fusion repository; the engine.version comes from the git hashes.
   if [ -z "${LUCI_CONTEXT}" ]; then
-    ENGINE_VERSION=$(cd "$FLUTTER_ROOT"; git merge-base HEAD upstream/master)
+    ENGINE_VERSION=$(git -C "$FLUTTER_ROOT" merge-base HEAD upstream/master)
   else
-    ENGINE_VERSION=$(cd "$FLUTTER_ROOT"; git rev-parse HEAD)
+    ENGINE_VERSION=$(git -C "$FLUTTER_ROOT" rev-parse HEAD)
   fi
 
   if [[ "$BRANCH" != "stable" && "$BRANCH" != "beta" ]]; then

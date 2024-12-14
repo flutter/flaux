@@ -24,14 +24,12 @@ $engineStamp = "$cachePath\engine-dart-sdk.stamp"
 # Test for fusion repository
 if ((Test-Path "$flutterRoot\DEPS" -PathType Leaf) -and (Test-Path "$flutterRoot\engine\src\.gn" -PathType Leaf)) {
   # Calculate the engine hash from tracked git files.
-    Push-Location "$flutterRoot"
-    $branch = (git -C "$FLUTTER_ROOT" rev-parse --abbrev-ref HEAD)
+    $branch = (git -C "$flutterRoot" rev-parse --abbrev-ref HEAD)
     if ($null -eq $Env:LUCI_CONTEXT) {
-        $engineVersion = (git merge-base HEAD upstream/master)
+        $engineVersion = (git -C "$flutterRoot"  merge-base HEAD upstream/master)
     } else {
-        $engineVersion = (git rev-parse HEAD)
+        $engineVersion = (git -C "$flutterRoot" rev-parse HEAD)
     }
-    Pop-Location
 
     if (($branch -ne "stable" -and $branch -ne "beta")) {
         # Write the engine version out so downstream tools know what to look for.
