@@ -388,6 +388,7 @@ targets:
       config_name: linux_license
       clobber: "true"
 
+  # Testing that web engine build works.
   - name: Linux linux_web_engine
     recipe: engine_v2/engine_v2
     timeout: 120
