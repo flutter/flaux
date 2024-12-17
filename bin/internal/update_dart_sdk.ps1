@@ -20,6 +20,7 @@ $cachePath = "$flutterRoot\bin\cache"
 $dartSdkPath = "$cachePath\dart-sdk"
 $dartSdkLicense = "$cachePath\LICENSE.dart_sdk_archive.md"
 $engineStamp = "$cachePath\engine-dart-sdk.stamp"
+$engineRealm = ""
 
 # Test for fusion repository
 if ((Test-Path "$flutterRoot\DEPS" -PathType Leaf) -and (Test-Path "$flutterRoot\engine\src\.gn" -PathType Leaf)) {
@@ -33,14 +34,16 @@ if ((Test-Path "$flutterRoot\DEPS" -PathType Leaf) -and (Test-Path "$flutterRoot
 
     if (($branch -ne "stable" -and $branch -ne "beta")) {
         # Write the engine version out so downstream tools know what to look for.
-        $engineVersion | Out-File -FilePath "$flutterRoot\bin\internal\engine.version"
+        [System.IO.File]::WriteAllText("$flutterRoot\bin\internal\engine.version", $engineVersion, [System.Text.Encoding]::UTF8)
 
         # The realm on CI is passed in.
         if ($Env:FLUTTER_REALM) {
-            $Env:FLUTTER_REALM | Out-File -FilePath "$flutterRoot\bin\internal\engine.realm"
+            [System.IO.File]::WriteAllText("$flutterRoot\bin\internal\engine.realm", $Env:FLUTTER_REALM, [System.Text.Encoding]::UTF8)
             $engineRealm = "$Env:FLUTTER_REALM"
         } else {
-            $engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
+            if (Test-Path -Path "$flutterRoot\bin\internal\engine.realm") {
+                $engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
+            }
         }
     } else {
         # Release branch - these files will exist
@@ -52,6 +55,8 @@ if ((Test-Path "$flutterRoot\DEPS" -PathType Leaf) -and (Test-Path "$flutterRoot
   $engineVersion = (Get-Content "$flutterRoot\bin\internal\engine.version")
   $engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
 }
+
+Write-Host "SUP: $engineRealm"
 
 $oldDartSdkPrefix = "dart-sdk.old"
 
