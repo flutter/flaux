@@ -872,6 +872,7 @@ targets:
         ["framework", "hostonly", "shard", "linux"]
     runIf:
       - engine/**
+      - DEPS
       - .ci.yaml
 
   - name: Linux gradle_desugar_classes_test
@@ -1184,6 +1185,7 @@ targets:
         ["framework", "hostonly", "shard", "linux"]
     runIf:
       - engine/**
+      - DEPS
       - .ci.yaml
 
   - name: Linux tool_integration_tests_1_5
@@ -2606,6 +2608,7 @@ targets:
     # test for external textures for the engine, it should never break.
     runIf:
       - engine/**
+      - DEPS
       - .ci.yaml
     properties:
       tags: >
@@ -2621,6 +2624,7 @@ targets:
     # test for external textures for the engine, it should never break.
     runIf:
       - engine/**
+      - DEPS
       - .ci.yaml
     properties:
       tags: >
