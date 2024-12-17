@@ -34,11 +34,12 @@ if ((Test-Path "$flutterRoot\DEPS" -PathType Leaf) -and (Test-Path "$flutterRoot
 
     if (($branch -ne "stable" -and $branch -ne "beta")) {
         # Write the engine version out so downstream tools know what to look for.
-        [System.IO.File]::WriteAllText("$flutterRoot\bin\internal\engine.version", $engineVersion, [System.Text.Encoding]::UTF8)
+        $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+        [System.IO.File]::WriteAllText("$flutterRoot\bin\internal\engine.version", $engineVersion, $utf8NoBom)
 
         # The realm on CI is passed in.
         if ($Env:FLUTTER_REALM) {
-            [System.IO.File]::WriteAllText("$flutterRoot\bin\internal\engine.realm", $Env:FLUTTER_REALM, [System.Text.Encoding]::UTF8)
+            [System.IO.File]::WriteAllText("$flutterRoot\bin\internal\engine.realm", $Env:FLUTTER_REALM, $utf8NoBom)
             $engineRealm = "$Env:FLUTTER_REALM"
         } else {
             if (Test-Path -Path "$flutterRoot\bin\internal\engine.realm") {
@@ -55,8 +56,6 @@ if ((Test-Path "$flutterRoot\DEPS" -PathType Leaf) -and (Test-Path "$flutterRoot
   $engineVersion = (Get-Content "$flutterRoot\bin\internal\engine.version")
   $engineRealm = (Get-Content "$flutterRoot\bin\internal\engine.realm")
 }
-
-Write-Host "SUP: $engineRealm"
 
 $oldDartSdkPrefix = "dart-sdk.old"
 
